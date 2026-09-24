@@ -1,0 +1,570 @@
+{
+    "name": "Integration Webhooks, Salesforce",
+    "flow": [
+        {
+            "id": 1,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": 2850681,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "a2bb5e9ccd2f04d1"
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "Tally Lead Webhook"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "eventId",
+                        "type": "text"
+                    },
+                    {
+                        "name": "eventType",
+                        "type": "text"
+                    },
+                    {
+                        "name": "createdAt",
+                        "type": "text"
+                    },
+                    {
+                        "name": "data",
+                        "spec": [
+                            {
+                                "name": "responseId",
+                                "type": "text"
+                            },
+                            {
+                                "name": "submissionId",
+                                "type": "text"
+                            },
+                            {
+                                "name": "respondentId",
+                                "type": "text"
+                            },
+                            {
+                                "name": "formId",
+                                "type": "text"
+                            },
+                            {
+                                "name": "formName",
+                                "type": "text"
+                            },
+                            {
+                                "name": "createdAt",
+                                "type": "text"
+                            },
+                            {
+                                "name": "submissionPdfUrl",
+                                "type": "text"
+                            },
+                            {
+                                "name": "submissionPreviewUrl",
+                                "type": "text"
+                            },
+                            {
+                                "name": "fields",
+                                "spec": {
+                                    "spec": [
+                                        {
+                                            "name": "key",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "name": "label",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "name": "type",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "name": "value",
+                                            "type": "text"
+                                        }
+                                    ],
+                                    "type": "collection"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "type": "collection"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "salesforce:upsertARecordV4",
+            "version": 4,
+            "parameters": {
+                "__IMTCONN__": 11282714
+            },
+            "mapper": {
+                "fields": {
+                    "email": "workhub056@gmail.com",
+                    "phone": "3178960938",
+                    "company": "workhub",
+                    "lastName": "Amechi",
+                    "firstName": "Emmanuel"
+                },
+                "select": "internal",
+                "sObject": "Lead"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "b3b95500f7ea9912"
+                },
+                "restore": {
+                    "expect": {
+                        "fields": {
+                            "nested": {
+                                "rating": {
+                                    "mode": "edit"
+                                },
+                                "status": {
+                                    "mode": "edit"
+                                },
+                                "industry": {
+                                    "mode": "edit"
+                                },
+                                "stateCode": {
+                                    "mode": "edit"
+                                },
+                                "autoAssign": {
+                                    "mode": "chose"
+                                },
+                                "leadSource": {
+                                    "mode": "edit"
+                                },
+                                "salutation": {
+                                    "mode": "edit"
+                                },
+                                "countryCode": {
+                                    "mode": "edit"
+                                },
+                                "isConverted": {
+                                    "mode": "chose"
+                                },
+                                "individualId": {
+                                    "mode": "edit"
+                                },
+                                "geocodeAccuracy": {
+                                    "mode": "edit"
+                                },
+                                "isUnreadByOwner": {
+                                    "mode": "chose"
+                                },
+                                "hasOptedOutOfEmail": {
+                                    "mode": "chose"
+                                }
+                            }
+                        },
+                        "select": {
+                            "label": "Internal ID"
+                        },
+                        "sObject": {
+                            "label": "Lead"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "salesforce"
+                            },
+                            "label": "work's Salesforce (client credentials) connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:salesforce,salesforce2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "sObject",
+                        "type": "select",
+                        "label": "Type",
+                        "required": true
+                    },
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "internal",
+                                "external"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "spec": [
+                            {
+                                "name": "lastName",
+                                "type": "text",
+                                "label": "Last Name (LastName)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "firstName",
+                                "type": "text",
+                                "label": "First Name (FirstName)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "salutation",
+                                "type": "select",
+                                "label": "Salutation (Salutation)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "name": "title",
+                                "type": "text",
+                                "label": "Title (Title)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "company",
+                                "type": "text",
+                                "label": "Company (Company)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "street",
+                                "type": "text",
+                                "label": "Street (Street)",
+                                "metadata": {
+                                    "type": "textarea"
+                                }
+                            },
+                            {
+                                "name": "city",
+                                "type": "text",
+                                "label": "City (City)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "state",
+                                "type": "text",
+                                "label": "State/Province (State)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "postalCode",
+                                "type": "text",
+                                "label": "Zip/Postal Code (PostalCode)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "country",
+                                "type": "text",
+                                "label": "Country (Country)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "stateCode",
+                                "type": "select",
+                                "label": "State/Province Code (StateCode)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "countryCode",
+                                "type": "select",
+                                "label": "Country Code (CountryCode)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "name": "latitude",
+                                "type": "number",
+                                "label": "Latitude (Latitude)",
+                                "metadata": {
+                                    "type": "double"
+                                }
+                            },
+                            {
+                                "name": "longitude",
+                                "type": "number",
+                                "label": "Longitude (Longitude)",
+                                "metadata": {
+                                    "type": "double"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "geocodeAccuracy",
+                                "type": "select",
+                                "label": "Geocode Accuracy (GeocodeAccuracy)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "name": "phone",
+                                "type": "text",
+                                "label": "Phone (Phone)",
+                                "metadata": {
+                                    "type": "phone"
+                                }
+                            },
+                            {
+                                "name": "email",
+                                "type": "email",
+                                "label": "Email (Email)",
+                                "metadata": {
+                                    "type": "email"
+                                }
+                            },
+                            {
+                                "name": "website",
+                                "type": "url",
+                                "label": "Website (Website)",
+                                "metadata": {
+                                    "type": "url"
+                                }
+                            },
+                            {
+                                "name": "description",
+                                "type": "text",
+                                "label": "Description (Description)",
+                                "metadata": {
+                                    "type": "textarea"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "leadSource",
+                                "type": "select",
+                                "label": "Lead Source (LeadSource)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "status",
+                                "type": "select",
+                                "label": "Status (Status)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "industry",
+                                "type": "select",
+                                "label": "Industry (Industry)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "rating",
+                                "type": "select",
+                                "label": "Rating (Rating)",
+                                "metadata": {
+                                    "type": "picklist"
+                                }
+                            },
+                            {
+                                "name": "annualRevenue",
+                                "type": "number",
+                                "label": "Annual Revenue (AnnualRevenue)",
+                                "metadata": {
+                                    "type": "currency"
+                                }
+                            },
+                            {
+                                "name": "numberOfEmployees",
+                                "type": "number",
+                                "label": "Employees (NumberOfEmployees)",
+                                "metadata": {
+                                    "type": "int"
+                                }
+                            },
+                            {
+                                "name": "ownerId",
+                                "type": "text",
+                                "label": "Owner ID (OwnerId)",
+                                "metadata": {
+                                    "type": "reference"
+                                }
+                            },
+                            {
+                                "name": "hasOptedOutOfEmail",
+                                "type": "boolean",
+                                "label": "Email Opt Out (HasOptedOutOfEmail)",
+                                "metadata": {
+                                    "type": "boolean"
+                                }
+                            },
+                            {
+                                "name": "isConverted",
+                                "type": "boolean",
+                                "label": "Converted (IsConverted)",
+                                "metadata": {
+                                    "type": "boolean"
+                                }
+                            },
+                            {
+                                "name": "isUnreadByOwner",
+                                "type": "boolean",
+                                "label": "Unread By Owner (IsUnreadByOwner)",
+                                "metadata": {
+                                    "type": "boolean"
+                                }
+                            },
+                            {
+                                "name": "jigsaw",
+                                "type": "text",
+                                "label": "Data.com Key (Jigsaw)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "emailBouncedReason",
+                                "type": "text",
+                                "label": "Email Bounced Reason (EmailBouncedReason)",
+                                "metadata": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "name": "emailBouncedDate",
+                                "type": "date",
+                                "label": "Email Bounced Date (EmailBouncedDate)",
+                                "metadata": {
+                                    "type": "datetime"
+                                }
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "individualId",
+                                "type": "select",
+                                "label": "Individual ID (IndividualId)",
+                                "metadata": {
+                                    "type": "reference"
+                                }
+                            },
+                            {
+                                "name": "autoAssign",
+                                "type": "boolean",
+                                "label": "Salesforce Auto Assign"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Fields"
+                    },
+                    {
+                        "name": "record",
+                        "type": "text",
+                        "label": "Record ID"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Record ID"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us2.make.com",
+        "notes": []
+    }
+}
